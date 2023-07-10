@@ -44,15 +44,17 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _widgetOptions.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: AppColors.mainColor,
-        items: _bottomNavigationBarItems,
-        currentIndex: _selectedIndex,
-        unselectedItemColor: Colors.white,
-        selectedItemColor: AppColors.secondaryColor,
-        onTap: _onItemTapped,
+    return SafeArea(
+      child: Scaffold(
+        body: _widgetOptions.elementAt(_selectedIndex),
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: AppColors.mainColor,
+          items: _bottomNavigationBarItems,
+          currentIndex: _selectedIndex,
+          unselectedItemColor: Colors.white,
+          selectedItemColor: AppColors.secondaryColor,
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }

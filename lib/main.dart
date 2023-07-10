@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:library_app/pages/Home/home_page.dart';
+import 'package:library_app/provider/app_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   runApp(
-    const MyApp(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AppProvider()),
+      ],
+      child: const MyApp(),
+    ),
   );
 }
 
