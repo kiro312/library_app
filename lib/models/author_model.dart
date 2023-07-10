@@ -1,14 +1,14 @@
 class AuthorModel {
   late int auhtorId;
   late String auhtorName;
-  late String auhtorEmail;
-  late String auhtorBio;
+  late String? auhtorEmail;
+  late String? auhtorBio;
 
   AuthorModel({
     required this.auhtorId,
     required this.auhtorName,
-    required this.auhtorEmail,
-    required this.auhtorBio,
+     this.auhtorEmail,
+     this.auhtorBio,
   });
 
   AuthorModel.fromJson(Map<String, dynamic> json) {
