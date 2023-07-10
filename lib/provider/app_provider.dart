@@ -32,4 +32,8 @@ class AppProvider extends ChangeNotifier {
   Future<void> addBook(CreateBookModel book) async {
     await BookService.addBook(book);
   }
+
+  Future<bool> addAuthor(AuthorModel author) async {
+    return AuthorService.addAuthor(author);
+  }
 }

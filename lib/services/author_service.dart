@@ -20,4 +20,20 @@ class AuthorService {
     }
     return [];
   }
+
+  static Future<bool> addAuthor(AuthorModel author) async {
+    var url = Uri.parse(Config.createAuthor);
+    var response = await client.post(
+      url,
+      headers: requestHeaders,
+      body: json.encode(author.toJson()),
+    );
+    print(json.encode(author.toJson()));
+    print(response.statusCode);
+    print(response.body);
+    if (response.statusCode == 201) {
+      return true;
+    }
+    return false;
+  }
 }
