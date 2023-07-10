@@ -14,6 +14,7 @@ class AllBooksPage extends StatefulWidget {
 
 class _AllBooksPageState extends State<AllBooksPage> {
   TextEditingController searchController = TextEditingController();
+  late String selectedAuthor = "All";
 
   List<Widget> _buildBooks(List<BookModel> books) {
     return books.map((book) {
@@ -29,9 +30,15 @@ class _AllBooksPageState extends State<AllBooksPage> {
   List<BookModel> searchBooks(String query) {
     return appProvider.allbooks.where((book) {
       final title = book.bookTitle.toLowerCase();
+      final authorName = book.bookAuthor.auhtorName.toLowerCase();
       final searchLower = query.toLowerCase();
 
-      return title.contains(searchLower);
+      if (selectedAuthor == "All" || selectedAuthor.isEmpty) {
+        return title.contains(searchLower);
+      } else {
+        return title.contains(searchLower) &&
+            authorName.contains(selectedAuthor.toLowerCase());
+      }
     }).toList();
   }
 
@@ -42,7 +49,7 @@ class _AllBooksPageState extends State<AllBooksPage> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       appProvider = Provider.of<AppProvider>(context, listen: false);
-
+      // selectedAuthor = appProvider.allAuthors.first.auhtorName;
       setState(() {
         isLoading = false;
       });
@@ -94,9 +101,25 @@ class _AllBooksPageState extends State<AllBooksPage> {
                 // filter by author
                 Container(
                   alignment: Alignment.centerLeft,
-                  height: 50.0,
-                  child: Text("filter by author here ..."),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.15,
+                  ),
+                  child: DropdownButton<String>(
+                    value: selectedAuthor,
+                    onChanged: (String? value) {
+                      setState(() {
+                        selectedAuthor = value!;
+                      });
+                    },
+                    items: appProvider.allAuthors.map((author) {
+                      return DropdownMenuItem<String>(
+                        value: author.auhtorName,
+                        child: Text(author.auhtorName),
+                      );
+                    }).toList(),
+                  ),
                 ),
+
                 ..._buildBooks(searchBooks(searchController.text)),
               ],
             ),

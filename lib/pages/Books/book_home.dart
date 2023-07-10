@@ -23,6 +23,7 @@ class _BooksHomePageState extends State<BooksHomePage> {
       appProvider = Provider.of<AppProvider>(context, listen: false);
 
       await appProvider.setAllBooks();
+      await appProvider.setAllAuthors();
 
       setState(() {
         isLoading = false;
