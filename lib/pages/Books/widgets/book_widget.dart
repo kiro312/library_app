@@ -11,7 +11,7 @@ class BookWidget extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(25.0),
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.85,
+        width: MediaQuery.of(context).size.width * 0.8,
         child: Card(
           elevation: 5.0,
           child: Padding(
@@ -21,7 +21,7 @@ class BookWidget extends StatelessWidget {
               children: [
                 Image.network(
                   book.bookImage,
-                  height: 200,
+                  height: 150,
                   width: 250,
                 ),
                 const SizedBox(height: 10.0),

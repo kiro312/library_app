@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:library_app/ReusableWidgets/loader.dart';
-import 'package:library_app/models/author_model.dart';
 import 'package:library_app/models/book_model.dart';
 import 'package:library_app/pages/Books/widgets/book_widget.dart';
 import 'package:library_app/provider/app_provider.dart';
@@ -14,6 +13,8 @@ class AllBooksPage extends StatefulWidget {
 }
 
 class _AllBooksPageState extends State<AllBooksPage> {
+  TextEditingController searchController = TextEditingController();
+
   List<Widget> _buildBooks(List<BookModel> books) {
     return books.map((book) {
       return Column(
@@ -22,6 +23,15 @@ class _AllBooksPageState extends State<AllBooksPage> {
           const SizedBox(height: 8.0),
         ],
       );
+    }).toList();
+  }
+
+  List<BookModel> searchBooks(String query) {
+    return appProvider.allbooks.where((book) {
+      final title = book.bookTitle.toLowerCase();
+      final searchLower = query.toLowerCase();
+
+      return title.contains(searchLower);
     }).toList();
   }
 
@@ -36,6 +46,9 @@ class _AllBooksPageState extends State<AllBooksPage> {
       setState(() {
         isLoading = false;
       });
+    });
+    searchController.addListener(() {
+      setState(() {});
     });
     super.initState();
   }
@@ -63,9 +76,11 @@ class _AllBooksPageState extends State<AllBooksPage> {
             child: Column(
               children: [
                 const SizedBox(height: 10.0),
+                // search bar
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.85,
                   child: TextField(
+                    controller: searchController,
                     decoration: InputDecoration(
                       hintText: "Search",
                       prefixIcon: const Icon(Icons.search),
@@ -76,14 +91,13 @@ class _AllBooksPageState extends State<AllBooksPage> {
                   ),
                 ),
                 const SizedBox(height: 10.0),
-                // add filter by author
+                // filter by author
                 Container(
                   alignment: Alignment.centerLeft,
                   height: 50.0,
                   child: Text("filter by author here ..."),
                 ),
-
-                ..._buildBooks(appProvider.allbooks),
+                ..._buildBooks(searchBooks(searchController.text)),
               ],
             ),
           ),
